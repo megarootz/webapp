@@ -98,12 +98,12 @@ const BalanceCard: React.FC = () => {
         <Text size="md" color={AppColors.textSecondary}>
           Total Profit/Loss:
         </Text>
-        <Flex direction="column" align="flex-end">
+        <Flex align="center" gap={AppSpacing.xs}>
           <ProfitAmount isProfit={isProfit}>
             {isProfit ? '+' : ''}{formatCurrency(totalProfit)}
           </ProfitAmount>
-          <Text size="sm" color={isProfit ? AppColors.profit : AppColors.loss}>
-            {isProfit ? '+' : ''}{profitPercentage.toFixed(2)}%
+          <Text size="md" color={isProfit ? AppColors.profit : AppColors.loss} style={{ fontWeight: '600' }}>
+            ({isProfit ? '+' : ''}{profitPercentage.toFixed(2)}%)
           </Text>
         </Flex>
       </Flex>
