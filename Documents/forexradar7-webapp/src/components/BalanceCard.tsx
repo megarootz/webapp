@@ -80,6 +80,7 @@ const BalanceCard: React.FC = () => {
 
   const riskAmount = balance * riskPercent;
   const isProfit = totalProfit >= 0;
+  const profitPercentage = balance > 0 ? (totalProfit / balance) * 100 : 0;
 
   return (
     <BalanceContainer>
@@ -92,14 +93,19 @@ const BalanceCard: React.FC = () => {
         </BalanceAmount>
       </Flex>
 
-      {/* Total Profit/Loss - More prominent display */}
+      {/* Total Profit/Loss - More prominent display with percentage */}
       <Flex justify="space-between" align="center" style={{ marginTop: AppSpacing.md }}>
         <Text size="md" color={AppColors.textSecondary}>
           Total Profit/Loss:
         </Text>
-        <ProfitAmount isProfit={isProfit}>
-          {isProfit ? '+' : ''}{formatCurrency(totalProfit)}
-        </ProfitAmount>
+        <Flex direction="column" align="flex-end">
+          <ProfitAmount isProfit={isProfit}>
+            {isProfit ? '+' : ''}{formatCurrency(totalProfit)}
+          </ProfitAmount>
+          <Text size="sm" color={isProfit ? AppColors.profit : AppColors.loss}>
+            {isProfit ? '+' : ''}{profitPercentage.toFixed(2)}%
+          </Text>
+        </Flex>
       </Flex>
 
       <RiskInfo>

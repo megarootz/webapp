@@ -14,7 +14,7 @@ const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
-  justifyContent: center;
+  justify-content: center;
   z-index: 1000;
   padding: ${AppSpacing.md}px;
 `;
@@ -23,11 +23,23 @@ const ModalContent = styled.div`
   background-color: ${AppColors.surface};
   border-radius: ${AppRadius.md}px;
   padding: ${AppSpacing.lg}px;
-  max-width: 500px;
+  max-width: 600px;
   width: 100%;
   border: 1px solid ${AppColors.border};
   max-height: 90vh;
   overflow-y: auto;
+  margin: auto;
+  position: relative;
+
+  @media (min-width: 768px) {
+    width: 90%;
+    max-width: 600px;
+  }
+
+  @media (max-width: 767px) {
+    width: 95%;
+    margin: ${AppSpacing.sm}px;
+  }
 `;
 
 const ModalHeader = styled.div`
@@ -277,8 +289,8 @@ const TradeDetailsModal: React.FC<TradeDetailsModalProps> = ({ trade, onClose })
             <SectionTitle>Results</SectionTitle>
             <DetailRow>
               <DetailLabel>Result Pips:</DetailLabel>
-              <DetailValue 
-                weight="semibold" 
+              <DetailValue
+                weight="semibold"
                 color={resultPips >= 0 ? AppColors.profit : AppColors.loss}
               >
                 {resultPips >= 0 ? '+' : ''}{resultPips.toFixed(1)}
@@ -292,6 +304,33 @@ const TradeDetailsModal: React.FC<TradeDetailsModalProps> = ({ trade, onClose })
             </DetailRow>
           </Section>
         )}
+
+        {/* Broker Information */}
+        <Section>
+          <SectionTitle>Broker Information</SectionTitle>
+          <DetailRow>
+            <DetailLabel>Broker:</DetailLabel>
+            <DetailValue>ForexRadar7 Pro</DetailValue>
+          </DetailRow>
+          <DetailRow>
+            <DetailLabel>Platform:</DetailLabel>
+            <DetailValue>MT5 Mobile</DetailValue>
+          </DetailRow>
+          <DetailRow>
+            <DetailLabel>Server:</DetailLabel>
+            <DetailValue>ForexRadar7-Live</DetailValue>
+          </DetailRow>
+          <DetailRow>
+            <DetailLabel>Account Type:</DetailLabel>
+            <DetailValue>Standard</DetailValue>
+          </DetailRow>
+          <DetailRow>
+            <DetailLabel>Mobile App:</DetailLabel>
+            <DetailValue style={{ color: AppColors.primary }}>
+              📱 Available on Android
+            </DetailValue>
+          </DetailRow>
+        </Section>
       </ModalContent>
     </ModalOverlay>
   );
