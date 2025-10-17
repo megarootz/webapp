@@ -235,16 +235,30 @@ const formatCurrency = (amount: number): string => {
 };
 
 const formatDateTime = (dateString: string): string => {
-  const date = new Date(dateString);
-  return date.toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    timeZoneName: 'short',
-  });
+  // Parse the date string manually to avoid timezone conversion
+  // Expected format: "2024-12-17T14:30:45.123Z" or "2024-12-17T14:30:45"
+  const cleanDateString = dateString.replace('Z', '').replace('T', ' ');
+  const [datePart, timePart] = cleanDateString.split(' ');
+
+  if (!datePart || !timePart) {
+    return dateString; // Return original if parsing fails
+  }
+
+  const [year, month, day] = datePart.split('-');
+  const [hour, minute, second] = timePart.split(':');
+
+  // Create month names array
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  const monthName = monthNames[parseInt(month) - 1];
+
+  // Format: "Dec 17, 2024, 14:30:45"
+  const formattedHour = hour.padStart(2, '0');
+  const formattedMinute = minute.padStart(2, '0');
+  const formattedSecond = second ? second.split('.')[0].padStart(2, '0') : '00';
+
+  return `${monthName} ${parseInt(day)}, ${year}, ${formattedHour}:${formattedMinute}:${formattedSecond}`;
 };
 
 const TradeDetailsModal: React.FC<TradeDetailsModalProps> = ({ trade, onClose }) => {
@@ -287,10 +301,6 @@ const TradeDetailsModal: React.FC<TradeDetailsModalProps> = ({ trade, onClose })
         {/* Trade Information */}
         <Section>
           <SectionTitle>Trade Information</SectionTitle>
-          <DetailRow>
-            <DetailLabel>Ticket #:</DetailLabel>
-            <DetailValue>{trade.ticket}</DetailValue>
-          </DetailRow>
           <DetailRow>
             <DetailLabel>Entry Price:</DetailLabel>
             <DetailValue size="md" weight="semibold">{formatPrice(trade.entryPrice)}</DetailValue>

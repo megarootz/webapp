@@ -113,13 +113,29 @@ const formatCurrency = (amount: number): string => {
 };
 
 const formatDateTime = (dateString: string): string => {
-  const date = new Date(dateString);
-  return date.toLocaleString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  // Parse the date string manually to avoid timezone conversion
+  // Expected format: "2024-12-17T14:30:45.123Z" or "2024-12-17T14:30:45"
+  const cleanDateString = dateString.replace('Z', '').replace('T', ' ');
+  const [datePart, timePart] = cleanDateString.split(' ');
+
+  if (!datePart || !timePart) {
+    return dateString; // Return original if parsing fails
+  }
+
+  const [, month, day] = datePart.split('-');
+  const [hour, minute] = timePart.split(':');
+
+  // Create month names array
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  const monthName = monthNames[parseInt(month) - 1];
+
+  // Format: "Dec 17, 14:30"
+  const formattedHour = hour.padStart(2, '0');
+  const formattedMinute = minute.padStart(2, '0');
+
+  return `${monthName} ${parseInt(day)}, ${formattedHour}:${formattedMinute}`;
 };
 
 const TradeCard: React.FC<TradeCardProps> = ({ trade, showProfit = false }) => {

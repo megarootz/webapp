@@ -66,7 +66,7 @@ const Button = styled.button`
 
 const TelegramCard: React.FC = () => {
   const handleJoinTelegram = () => {
-    window.open('https://t.me/forexradar7', '_blank', 'noopener,noreferrer');
+    window.open('https://t.me/+KBBukBKxbVE4NzA1', '_blank', 'noopener,noreferrer');
   };
 
   return (

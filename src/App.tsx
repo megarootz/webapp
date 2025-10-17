@@ -154,35 +154,18 @@ const Text = styled.span<{
   color: ${props => props.color || AppColors.textPrimary};
 `;
 
-const LastUpdated = styled.div`
-  text-align: center;
-  margin-top: ${AppSpacing.lg}px;
-  padding: ${AppSpacing.sm}px;
-  background-color: ${AppColors.surface};
-  border-radius: ${AppRadius.sm}px;
-  border: 1px solid ${AppColors.border};
-  margin-left: ${AppSpacing.md}px;
-  margin-right: ${AppSpacing.md}px;
-`;
+
 
 function HomeScreen() {
   const { state, fetchTrades } = useTradeContext();
-  const { runningTrade, history, isLoading, error, lastUpdated } = state;
+  const { runningTrade, history, isLoading, error } = state;
   const [showSettings, setShowSettings] = useState(false);
 
   const handleRefresh = () => {
     fetchTrades();
   };
 
-  const formatLastUpdated = (date: Date): string => {
-    return date.toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
-  };
+
 
   return (
     <>
@@ -266,17 +249,7 @@ function HomeScreen() {
             )}
           </Section>
 
-          {/* Last Updated */}
-          {lastUpdated && (
-            <LastUpdated>
-              <Text size="sm" color={AppColors.textMuted}>
-                Last updated: {formatLastUpdated(lastUpdated)}
-              </Text>
-              <RefreshButton onClick={handleRefresh}>
-                Refresh Now
-              </RefreshButton>
-            </LastUpdated>
-          )}
+
         </Container>
       </HomeContainer>
 

@@ -91,6 +91,9 @@ const BalanceCard: React.FC = () => {
         <BalanceAmount>
           {formatCurrency(balance)}
         </BalanceAmount>
+        <Text size="sm" color={AppColors.textMuted} style={{ marginTop: AppSpacing.xs }}>
+          Used for lot size calculations based on your balance and risk settings
+        </Text>
       </Flex>
 
       {/* Total Profit/Loss - More prominent display with percentage */}
